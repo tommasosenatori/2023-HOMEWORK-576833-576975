@@ -1,5 +1,12 @@
 package it.uniroma3.diadia.giocatore;
-
+/**
+ * Classe Giocatore
+ * Un  giocatore in un gioco di ruolo
+ * Rappresenta il giocatore all'interno di diadia
+ * 
+ *@author 576833 576975
+ *@See Borsa
+ */
 public class Giocatore {
 	private int cfu;
 	private Borsa borsa;
@@ -13,6 +20,10 @@ public class Giocatore {
 	public void setCfu(int cfu) {
 		this.cfu = cfu;
 	}
+	/**
+	 * Restituisce un riferimento alla borsa trasportata dal giocatore
+	 * @return riferimento alla borsa del giocatore
+	 */
 	public Borsa getBorsa() {
 		return borsa;
 	}

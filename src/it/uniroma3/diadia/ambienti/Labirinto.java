@@ -1,7 +1,13 @@
 package it.uniroma3.diadia.ambienti;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
-
+/**
+ * Classe Labirinto
+ * Rappresenta un labirinto all'interno del gioco
+ * Ne gestice la creazione e ne contiene la topologia
+ * @author 576833 576975
+ * @see Stanza
+ */
 public class Labirinto {
 	private Stanza ingresso;
 	private Stanza uscita;
@@ -18,6 +24,9 @@ public class Labirinto {
 	public void setUscita(Stanza uscita) {
 		this.uscita = uscita;
 	}
+	/**
+     * Crea tutte le stanze e le porte di collegamento e imposta ingresso e uscita del labirinto
+     */
 	public Labirinto() {
 		/* crea gli attrezzi */
 		Attrezzo lanterna = new Attrezzo("lanterna",3);

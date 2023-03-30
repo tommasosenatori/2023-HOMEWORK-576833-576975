@@ -28,10 +28,7 @@ public class Partita {
 		this.finita = false;
 	}
 
-    /**
-     * Crea tutte le stanze e le porte di collegamento
-     */
-  
+    
 
 	public Stanza getStanzaVincente() {
 		return this.labirinto.getUscita();

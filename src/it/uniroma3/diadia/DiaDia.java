@@ -108,6 +108,12 @@ public class DiaDia {
 		}
 		io.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
 	}
+	/**
+	 * Cerca di prendere un oggetto dalla stanza corrente e metterlo nella borsa.
+	 * Se l'attrezzo è presente nella stanza corrente e c'è spazio nella borsa lo rimuove dalla stanza, lo aggiunge nella borsa e stampa il contenuto della borsa.
+	 * Altrimenti stampa un messaggio d'errore.
+	 * @param nomeAttrezzo, nome dell'attrezzo che si vuole prendere
+	 */
 	private void prendi(String nomeAttrezzo) {
 		if(nomeAttrezzo==null) {
 			io.mostraMessaggio("Che attrezzo vuoi prendere?");
@@ -128,7 +134,9 @@ public class DiaDia {
 		
 	}
 	/**
-	 * Funzione che fa posare un attrezzo ad un giocatore 
+	 * Cerca di posare un attrezzo della borsa nella stanza corrente. Se l'attrezzo è presente nella borsa
+	 * e c'è spazio nella stanza corrente lo rimuove dalla borsa, lo aggiunge nella stanza corrente 
+	 * e stampa il contenuto della borsa. Altrimenti stampa un messaggio d'errore
 	 * @param nomeAttrezzo, nome dell'attrezzo da posare
 	 */
 	private void posa(String nomeAttrezzo) {
