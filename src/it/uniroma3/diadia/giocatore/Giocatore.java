@@ -30,4 +30,7 @@ public class Giocatore {
 	public void setBorsa(Borsa borsa) {
 		this.borsa = borsa;
 	}
+	public Boolean isVivo() {
+		return this.cfu!=0;
+	}
 }

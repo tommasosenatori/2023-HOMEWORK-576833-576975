@@ -36,8 +36,8 @@ class BorsaTest {
 	}
 	@Test
 	void testRemoveAttrezzoInternoBorsa3Attrezzi () {
-		Attrezzo attrezzo2 = borsa3Attrezzi.removeAttrezzo("Attrezzo 2");
-		assertEquals("contenuto borsa (2kg/10kg): Attrezzo 1 (1kg) Attrezzo 3 (1kg) ",borsa3Attrezzi.toString());
+		borsa3Attrezzi.removeAttrezzo("Attrezzo 2");
+		assertEquals("Contenuto borsa (2kg/10kg): Attrezzo 1 (1kg) Attrezzo 3 (1kg) ",borsa3Attrezzi.toString());
 	}
 	@Test
 	void testRemoveAttrezzoBorsa0Attrezzi () {

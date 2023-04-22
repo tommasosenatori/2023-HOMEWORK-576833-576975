@@ -13,10 +13,11 @@ class PartitaTest {
 
 	@BeforeEach
 	public void setUp() {
-		partitaNuova = new Partita();
-		partita0CFU = new Partita();
-		partitaVinta = new Partita();
-		partitaFinita = new Partita();
+		IOConsole console = new IOConsole();
+		partitaNuova = new Partita(console);
+		partita0CFU = new Partita(console);
+		partitaVinta = new Partita(console);
+		partitaFinita = new Partita(console);
 		//Setup Partita0CFU
 		partita0CFU.getGiocatore().setCfu(0);
 		//Setup Partita Vinta

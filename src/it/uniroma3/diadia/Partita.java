@@ -15,13 +15,14 @@ import it.uniroma3.diadia.giocatore.Giocatore;
 public class Partita {
 
 	static final private int CFU_INIZIALI = 20;
-
+	private IO console;
 	private Stanza stanzaCorrente;
 	private boolean finita;
 	private Giocatore giocatore;
 	private Labirinto labirinto;
 	
-	public Partita(){
+	public Partita(IO console){
+		this.console = console;
 		this.giocatore = new Giocatore(CFU_INIZIALI);
 		this.labirinto = new Labirinto();
 		this.stanzaCorrente = this.labirinto.getIngresso();
@@ -68,5 +69,12 @@ public class Partita {
 
 	public Giocatore getGiocatore() {
 		return giocatore;
+	}
+	public Boolean giocatoreIsVivo() {
+		return this.giocatore.isVivo();
+	}
+
+	public IO getConsole() {
+		return console;
 	}
 }
