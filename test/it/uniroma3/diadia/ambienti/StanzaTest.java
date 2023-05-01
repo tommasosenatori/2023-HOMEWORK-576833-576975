@@ -21,7 +21,7 @@ class StanzaTest {
          stanza0Attrezzi = new Stanza("0 Attrezzi");
          String[] direzioni = {"nord","sud","est","ovest"};
         //StanzaTuttiAttrezzi
-        for(int i=0;i<stanzaTuttiAttrezzi.getAttrezzi().length;i++) {
+        for(int i=0;i<11;i++) {
         	stanzaTuttiAttrezzi.addAttrezzo(new Attrezzo("Attrezzo "+i, i));
         }
         for(int i =0;i<direzioni.length;i++) {
@@ -101,7 +101,7 @@ class StanzaTest {
 	}
 	@Test
 	void testGetAttrezzoStanzaTuttiAttrezziEAttrezzoPresente() {
-		assertEquals(stanzaTuttiAttrezzi.getAttrezzi()[1],stanzaTuttiAttrezzi.getAttrezzo("Attrezzo 1"));
+		assertEquals(stanzaTuttiAttrezzi.getAttrezzi().get(1),stanzaTuttiAttrezzi.getAttrezzo("Attrezzo 1"));
 	}
 	//Test RemoveAttrezzo
 	@Test
