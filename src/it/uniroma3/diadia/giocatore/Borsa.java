@@ -49,18 +49,12 @@ public class Borsa {
 	 * @return l'attrezzo presente nella stanza, null se l'attrezzo non è presente
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		Attrezzo a = null;
-		Attrezzo attrezzoCorrente = null;
-		Iterator <Attrezzo> i = this.attrezzi.iterator();
-		while(i.hasNext()) {
-			attrezzoCorrente = i.next();
-			if(attrezzoCorrente.getNome().equals(nomeAttrezzo)) {
-				a = attrezzoCorrente;
-				break;
-			}
-			
+		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo,0);
+		int indice = attrezzi.indexOf(attrezzoCercato);
+		if(indice!=-1) {
+			return attrezzi.get(indice);
 		}
-		return a; 
+		return null; 
 	}
 	/**
 	 * Funzione che calcola il peso totale degli attrezzi nella stanza
@@ -68,8 +62,6 @@ public class Borsa {
 	 */
 	public int getPeso() {
 		int peso = 0;
-
-
 		Iterator <Attrezzo> i = this.attrezzi.iterator();
 		while(i.hasNext()) {
 			Attrezzo a = i.next();
@@ -94,16 +86,13 @@ public class Borsa {
 	 * @return true se l'attrezzo e stato rimosso, false altrimnenti.
 	 */
 	public Attrezzo removeAttrezzo (String nomeAttrezzo) {
-		Attrezzo a = null;
-		Iterator<Attrezzo> i = attrezzi.iterator();
-		while(i.hasNext()) {
-			a = i.next();
-			if(a.getNome().equals(nomeAttrezzo)) {
-				i.remove();
-				return a;
-			}	
+		
+		Attrezzo attrezzoDaRimuovere = new Attrezzo(nomeAttrezzo, 0);
+		int indice = attrezzi.indexOf(attrezzoDaRimuovere);
+		if(indice !=-1) {
+			return attrezzi.remove(indice);
 		}
-		return a;
+		return null;
 	}
 	/**
 	 * Restituisce una rappresentazione stringa della borsa,
