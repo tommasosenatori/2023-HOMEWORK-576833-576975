@@ -145,15 +145,8 @@ public class Stanza {
 	 * @return true se l'attrezzo esiste nella stanza, false altrimenti.
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
-		boolean trovato;
-		trovato = false;
-		for (Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo!=null) {
-				if (attrezzo.getNome().equals(nomeAttrezzo))
-					trovato = true;
-			}
-		}
-		return trovato;
+		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo, 0);
+		return attrezzi.contains(attrezzoCercato);
 	}
 
 	/**
@@ -163,16 +156,11 @@ public class Stanza {
 	 * 		   null se l'attrezzo non e' presente.
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		Attrezzo attrezzoCercato;
-		attrezzoCercato = null;
-		for (Attrezzo attrezzo : this.attrezzi) {
-			if(attrezzo!=null) {
-				if (attrezzo.getNome().equals(nomeAttrezzo))
-					attrezzoCercato = attrezzo;
-			}
-
-		}
-		return attrezzoCercato;	
+		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo,0);
+		int indice = attrezzi.indexOf(attrezzoCercato);
+		if(indice!=-1)
+			return attrezzi.get(indice);
+		return null;
 	}
 
 	/**
@@ -181,16 +169,7 @@ public class Stanza {
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		Iterator<Attrezzo> itAttrezzi = attrezzi.iterator();
-		Attrezzo attrezzoCorrente;
-		while(itAttrezzi.hasNext()) {
-			attrezzoCorrente = itAttrezzi.next();
-			if(attrezzoCorrente.getNome().equals(attrezzo.getNome())) {
-				itAttrezzi.remove();
-				return true;
-			}
-		}
-		return false;
+		return attrezzi.remove(attrezzo);
 	}
 
 
