@@ -1,10 +1,16 @@
 package it.uniroma3.diadia.giocatore;
 
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerNome;
+import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPeso;
 /**
  * Classe Borsa
  * Una Borsa è un contenitore di Attrezzi
@@ -95,6 +101,24 @@ public class Borsa {
 		return null;
 	}
 	/**
+	 * 
+	 * @return lista di attrezzi ordinata per peso e a parità di peso per nome
+	 */
+	List<Attrezzo> getContenutoOrdinatoPerPeso(){
+		List<Attrezzo> listaAttrezziOrdinata = new ArrayList<>(this.attrezzi);
+		ComparatoreAttrezziPerPeso comparaPeso = new ComparatoreAttrezziPerPeso();
+		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
+		Collections.sort(listaAttrezziOrdinata,comparaNome);
+		Collections.sort(listaAttrezziOrdinata,comparaPeso);
+		return listaAttrezziOrdinata;
+	}
+	SortedSet<Attrezzo> getContenutoOrdinatoPerNome(){
+		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
+		SortedSet<Attrezzo> setOrdinatoPerNome = new TreeSet<>(comparaNome);
+		setOrdinatoPerNome.addAll(this.attrezzi);
+		return setOrdinatoPerNome;
+	}
+	/**
 	 * Restituisce una rappresentazione stringa della borsa,
 	 * ne stampa il contenuto e il peso totale della borsa.
 	 * @return la rappresentazione stringa
@@ -110,4 +134,5 @@ public class Borsa {
 			s.append("Borsa vuota");
 		return s.toString();
 	}
+	
 }
