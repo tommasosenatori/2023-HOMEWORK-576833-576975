@@ -1,7 +1,10 @@
 package it.uniroma3.diadia.giocatore;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +13,7 @@ import java.util.Iterator;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerNome;
-import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPeso;
+import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPesoENome;
 /**
  * Classe Borsa
  * Una Borsa è un contenitore di Attrezzi
@@ -104,19 +107,39 @@ public class Borsa {
 	 * 
 	 * @return lista di attrezzi ordinata per peso e a parità di peso per nome
 	 */
-	List<Attrezzo> getContenutoOrdinatoPerPeso(){
+	public List<Attrezzo> getContenutoOrdinatoPerPeso(){
 		List<Attrezzo> listaAttrezziOrdinata = new ArrayList<>(this.attrezzi);
-		ComparatoreAttrezziPerPeso comparaPeso = new ComparatoreAttrezziPerPeso();
+		ComparatoreAttrezziPerPesoENome comparaPeso = new ComparatoreAttrezziPerPesoENome();
 		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
 		Collections.sort(listaAttrezziOrdinata,comparaNome);
 		Collections.sort(listaAttrezziOrdinata,comparaPeso);
 		return listaAttrezziOrdinata;
 	}
-	SortedSet<Attrezzo> getContenutoOrdinatoPerNome(){
+	
+	public SortedSet<Attrezzo> getContenutoOrdinatoPerNome(){
 		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
 		SortedSet<Attrezzo> setOrdinatoPerNome = new TreeSet<>(comparaNome);
 		setOrdinatoPerNome.addAll(this.attrezzi);
 		return setOrdinatoPerNome;
+	}
+	
+	public Map<Integer,Set<Attrezzo>> getContenutoRaggruppatoPerPeso(){
+		Map<Integer, Set<Attrezzo>> contenutoRaggruppatoPerPeso = new TreeMap<>();
+		Set<Attrezzo> attrezziPerPeso;
+		for(Attrezzo a: this.attrezzi) {
+			attrezziPerPeso = contenutoRaggruppatoPerPeso.get(a.getPeso());
+			if(attrezziPerPeso==null) {
+				attrezziPerPeso = new HashSet<>();
+				contenutoRaggruppatoPerPeso.put(a.getPeso(), attrezziPerPeso);
+			}
+			attrezziPerPeso.add(a);
+		}	
+		return contenutoRaggruppatoPerPeso;
+	}
+	public SortedSet<Attrezzo> getSortedSetOrdinatoPerPeso(){
+		SortedSet<Attrezzo> ordinatoPerPeso = new TreeSet<>(new ComparatoreAttrezziPerPesoENome());
+		ordinatoPerPeso.addAll(this.attrezzi);
+		return ordinatoPerPeso;
 	}
 	/**
 	 * Restituisce una rappresentazione stringa della borsa,
