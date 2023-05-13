@@ -8,6 +8,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
@@ -24,7 +25,7 @@ import it.uniroma3.diadia.attrezzi.ComparatoreAttrezziPerPesoENome;
  */
 public class Borsa {
 	public final static int DEFAULT_PESO_MAX_BORSA = 10; 
-	private List<Attrezzo> attrezzi;
+	private Map<String,Attrezzo> attrezzi;
 	private int numeroAttrezzi;
 	private int pesoMax;
 
@@ -34,7 +35,7 @@ public class Borsa {
 	//Aggiungere descrizione
 	public Borsa(int pesoMax) {
 		this.pesoMax = pesoMax;
-		this.attrezzi = new ArrayList<>();
+		this.attrezzi = new HashMap<>();
 		this.numeroAttrezzi = 0;
 	}
 	/**
@@ -45,7 +46,7 @@ public class Borsa {
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (this.getPeso() + attrezzo.getPeso() > this.getPesoMax())
 			return false;
-		this.attrezzi.add(attrezzo);
+		this.attrezzi.put(attrezzo.getNome(),attrezzo);
 		this.numeroAttrezzi++;
 		return true;
 	}
@@ -58,12 +59,7 @@ public class Borsa {
 	 * @return l'attrezzo presente nella stanza, null se l'attrezzo non è presente
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo,0);
-		int indice = attrezzi.indexOf(attrezzoCercato);
-		if(indice!=-1) {
-			return attrezzi.get(indice);
-		}
-		return null; 
+		return attrezzi.get(nomeAttrezzo);
 	}
 	/**
 	 * Funzione che calcola il peso totale degli attrezzi nella stanza
@@ -71,7 +67,7 @@ public class Borsa {
 	 */
 	public int getPeso() {
 		int peso = 0;
-		Iterator <Attrezzo> i = this.attrezzi.iterator();
+		Iterator <Attrezzo> i = this.attrezzi.values().iterator();
 		while(i.hasNext()) {
 			Attrezzo a = i.next();
 			peso += a.getPeso();
@@ -95,38 +91,28 @@ public class Borsa {
 	 * @return true se l'attrezzo e stato rimosso, false altrimnenti.
 	 */
 	public Attrezzo removeAttrezzo (String nomeAttrezzo) {
-		
-		Attrezzo attrezzoDaRimuovere = new Attrezzo(nomeAttrezzo, 0);
-		int indice = attrezzi.indexOf(attrezzoDaRimuovere);
-		if(indice !=-1) {
-			return attrezzi.remove(indice);
-		}
-		return null;
+		return attrezzi.remove(nomeAttrezzo);
 	}
 	/**
 	 * 
 	 * @return lista di attrezzi ordinata per peso e a parità di peso per nome
 	 */
 	public List<Attrezzo> getContenutoOrdinatoPerPeso(){
-		List<Attrezzo> listaAttrezziOrdinata = new ArrayList<>(this.attrezzi);
-		ComparatoreAttrezziPerPesoENome comparaPeso = new ComparatoreAttrezziPerPesoENome();
-		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
-		Collections.sort(listaAttrezziOrdinata,comparaNome);
-		Collections.sort(listaAttrezziOrdinata,comparaPeso);
+		List<Attrezzo> listaAttrezziOrdinata = new ArrayList<>(this.attrezzi.values());
+		Collections.sort(listaAttrezziOrdinata,new ComparatoreAttrezziPerPesoENome());
 		return listaAttrezziOrdinata;
 	}
 	
 	public SortedSet<Attrezzo> getContenutoOrdinatoPerNome(){
-		ComparatoreAttrezziPerNome comparaNome = new ComparatoreAttrezziPerNome();
-		SortedSet<Attrezzo> setOrdinatoPerNome = new TreeSet<>(comparaNome);
-		setOrdinatoPerNome.addAll(this.attrezzi);
+		SortedSet<Attrezzo> setOrdinatoPerNome = new TreeSet<>(new ComparatoreAttrezziPerNome());
+		setOrdinatoPerNome.addAll(this.attrezzi.values());
 		return setOrdinatoPerNome;
 	}
 	
 	public Map<Integer,Set<Attrezzo>> getContenutoRaggruppatoPerPeso(){
 		Map<Integer, Set<Attrezzo>> contenutoRaggruppatoPerPeso = new TreeMap<>();
 		Set<Attrezzo> attrezziPerPeso;
-		for(Attrezzo a: this.attrezzi) {
+		for(Attrezzo a: this.attrezzi.values()) {
 			attrezziPerPeso = contenutoRaggruppatoPerPeso.get(a.getPeso());
 			if(attrezziPerPeso==null) {
 				attrezziPerPeso = new HashSet<>();
@@ -138,7 +124,7 @@ public class Borsa {
 	}
 	public SortedSet<Attrezzo> getSortedSetOrdinatoPerPeso(){
 		SortedSet<Attrezzo> ordinatoPerPeso = new TreeSet<>(new ComparatoreAttrezziPerPesoENome());
-		ordinatoPerPeso.addAll(this.attrezzi);
+		ordinatoPerPeso.addAll(this.attrezzi.values());
 		return ordinatoPerPeso;
 	}
 	/**
