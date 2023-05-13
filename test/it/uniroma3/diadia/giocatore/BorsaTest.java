@@ -2,6 +2,9 @@ package it.uniroma3.diadia.giocatore;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+import java.util.SortedSet;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -73,5 +76,62 @@ class BorsaTest {
 	@Test
 	void testAddAttrezzoBorsa0Attrezzi () {
 		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 1)));
+	}
+	//TEST getContenutoOrdinatoPerPeso
+	@Test
+	void testContenutoOrdinatoPerPesoPesoENomeDiversi () {
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 2", 2)));
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 1)));
+		List<Attrezzo> listaOrdinata = borsa0Attrezzi.getContenutoOrdinatoPerPeso();
+		assertEquals(new Attrezzo("Attrezzo 1", 1),listaOrdinata.get(0));
+		assertEquals(new Attrezzo("Attrezzo 2", 2),listaOrdinata.get(1));
+	}
+	@Test
+	void testContenutoOrdinatoPerPesoPesoDiversoENomiUguali () {
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 2)));
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 1)));
+		List<Attrezzo> listaOrdinata = borsa0Attrezzi.getContenutoOrdinatoPerPeso();
+		assertEquals(new Attrezzo("Attrezzo 1", 1),listaOrdinata.get(0));
+		assertEquals(new Attrezzo("Attrezzo 1", 2),listaOrdinata.get(1));
+	}
+	void testContenutoOrdinatoPerPesoPesoUgualiENomeDiversi () {
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 2", 1)));
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 1)));
+		List<Attrezzo> listaOrdinata=borsa0Attrezzi.getContenutoOrdinatoPerPeso();
+		assertEquals(new Attrezzo("Attrezzo 1", 1),listaOrdinata.get(0));
+		assertEquals(new Attrezzo("Attrezzo 2", 1),listaOrdinata.get(1));
+		
+	}
+	//TEST getContenutoOrdinatoPerNome
+	@Test
+	void getContenutoOrdinatoPerNomNomiDiversiEPesoDiverso() {
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 2", 2)));
+		assertTrue(borsa0Attrezzi.addAttrezzo(new Attrezzo("Attrezzo 1", 1)));
+		SortedSet<Attrezzo> setOrdinato = borsa0Attrezzi.getContenutoOrdinatoPerNome();
+		assertEquals(new Attrezzo("Attrezzo 1", 1),setOrdinato.first());
+		assertEquals(new Attrezzo("Attrezzo 2", 1),setOrdinato.last());
+		
+	}
+	@Test
+	void getContenutoOrdinatoPerNomiNomiUgualiEPesoDiverso() {
+		
+	}
+	void getContenutoOrdinatoPerNomiUguali() {
+		
+	}
+		
+		
+	
+	//Test getContenutoRaggruppatoPerPeso
+	@Test
+	void getContenutoRaggruppatoPerPeso() {
+		
+	}
+	
+	
+	//Test getSortedSetOrdinatoPerPeso
+	@Test
+	void getSortedSetOrdinatoPerPeso() {
+		
 	}
 }
