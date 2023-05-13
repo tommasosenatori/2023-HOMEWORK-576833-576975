@@ -5,10 +5,11 @@ import java.util.Comparator;
 public class ComparatoreAttrezziPerPesoENome implements Comparator<Attrezzo> {
 
 	@Override
-	public int compare(Attrezzo o1, Attrezzo o2) {
-		if(o1.getPeso()-o2.getPeso()==0)
-			return o1.getNome().compareTo(o2.getNome());
-		return o1.getPeso()-o2.getPeso();
+	public int compare(Attrezzo a1, Attrezzo a2) {
+		int cmp = a1.getPeso()-a2.getPeso();
+		if(cmp==0)
+			return a1.getNome().compareTo(a2.getNome());
+		return cmp;
 	}
 
 }
