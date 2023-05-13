@@ -53,12 +53,12 @@ public class Attrezzo {
 	@Override
 	public boolean equals(Object obj) {
 		Attrezzo that = (Attrezzo)obj;
-		return this.getNome().equals(that.nome);
+		return this.getNome().equals(that.getNome())&&this.getPeso()==that.getPeso();
 	}
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
-		return this.getNome().hashCode();
+		return this.getNome().hashCode()+this.getPeso();
 	}
 	
 	
