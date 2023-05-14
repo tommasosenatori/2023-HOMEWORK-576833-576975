@@ -20,16 +20,20 @@ public class Partita {
 	private boolean finita;
 	private Giocatore giocatore;
 	private Labirinto labirinto;
-	
+
 	public Partita(IO console){
+		this(new Labirinto(),console);
+	}
+	public Partita(Labirinto l) {
+		this(l,new IOConsole());
+	}
+	public Partita(Labirinto labirinto,IO console){
 		this.console = console;
 		this.giocatore = new Giocatore(CFU_INIZIALI);
-		this.labirinto = new Labirinto();
+		this.labirinto = labirinto;
 		this.stanzaCorrente = this.labirinto.getIngresso();
 		this.finita = false;
 	}
-
-    
 
 	public Stanza getStanzaVincente() {
 		return this.labirinto.getUscita();
@@ -42,7 +46,7 @@ public class Partita {
 	public Stanza getStanzaCorrente() {
 		return this.stanzaCorrente;
 	}
-	
+
 	/**
 	 * Restituisce vero se e solo se la partita e' stata vinta
 	 * @return vero se partita vinta
@@ -76,5 +80,9 @@ public class Partita {
 
 	public IO getConsole() {
 		return console;
+	}
+
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto = labirinto;
 	}
 }
