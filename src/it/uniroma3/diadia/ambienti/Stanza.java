@@ -1,8 +1,10 @@
 package it.uniroma3.diadia.ambienti;
 
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
@@ -23,11 +25,19 @@ public class Stanza {
 	static final private int NUMERO_MASSIMO_ATTREZZI = 10;
 
 	private String nome;
-	private List<Attrezzo> attrezzi;
+	private Map<String,Attrezzo> attrezzi;
 	private int numeroAttrezzi;
-	private List<Stanza> stanzeAdiacenti;
+	
 	private int numeroStanzeAdiacenti;
-	private List<String> direzioni;
+	
+	private Map<String,Stanza> mappaAdiacenti;
+	
+	
+	
+	
+	public Map<String, Stanza> getMapStanzeAdiacenti() {
+		return mappaAdiacenti;
+	}
 
 	/**
 	 * Crea una stanza. Non ci sono stanze adiacenti, non ci sono attrezzi.
@@ -37,9 +47,8 @@ public class Stanza {
 		this.nome = nome;
 		this.numeroStanzeAdiacenti = 0;
 		this.numeroAttrezzi = 0;
-		this.direzioni = new ArrayList<>();
-		this.stanzeAdiacenti = new ArrayList<>();
-		this.attrezzi = new ArrayList<>();
+		this.mappaAdiacenti = new HashMap<>();
+		this.attrezzi = new HashMap<>();
 	}
 
 	/**
@@ -50,16 +59,14 @@ public class Stanza {
 	 */
 	public void impostaStanzaAdiacente(String direzione, Stanza stanza) {
 		boolean aggiornato = false;
-		int indiceDirezione = direzioni.indexOf(direzione);
-		if (indiceDirezione!=-1) {
-			this.stanzeAdiacenti.add(indiceDirezione,stanza);
+		if (mappaAdiacenti.containsKey(direzione)) {
+			this.mappaAdiacenti.put(direzione, stanza);
 			aggiornato = true;
 		}
 		if (!aggiornato)
-			if (this.numeroStanzeAdiacenti < NUMERO_MASSIMO_DIREZIONI) {
-				this.direzioni.add(direzione);
-				this.stanzeAdiacenti.add(stanza);
-				this.numeroStanzeAdiacenti++;
+			if (this.mappaAdiacenti.size() < NUMERO_MASSIMO_DIREZIONI) {
+				this.mappaAdiacenti.put(direzione, stanza);
+				this.numeroStanzeAdiacenti=mappaAdiacenti.size();
 			}
 	}
 
@@ -68,15 +75,7 @@ public class Stanza {
 	 * @param direzione
 	 */
 	public Stanza getStanzaAdiacente(String direzione) {
-		Stanza stanza = null;
-		Iterator<String> itDirezioni = direzioni.iterator();
-		while(itDirezioni.hasNext()) {
-			String direzioneCorrente = itDirezioni.next();
-			if (direzioneCorrente.equals(direzione)){
-				stanza = stanzeAdiacenti.get(direzioni.indexOf(direzioneCorrente));
-			}	
-		}
-		return stanza;
+		return mappaAdiacenti.get(direzione);
 	}
 
 	/**
@@ -100,7 +99,7 @@ public class Stanza {
 	 * @return la collezione di attrezzi nella stanza.
 	 */
 	public List<Attrezzo> getAttrezzi() {
-		return this.attrezzi;
+		return new ArrayList <Attrezzo>(this.attrezzi.values());
 	}
 
 	/**
@@ -110,7 +109,7 @@ public class Stanza {
 	 */
 	public boolean addAttrezzo(Attrezzo attrezzo) {
 		if (attrezzi.size() < NUMERO_MASSIMO_ATTREZZI) {
-			attrezzi.add(attrezzo);
+			attrezzi.put(attrezzo.getNome(),attrezzo);
 			
 			return true;
 		}
@@ -128,11 +127,11 @@ public class Stanza {
 		StringBuilder risultato = new StringBuilder();
 		risultato.append(this.nome);
 		risultato.append("\nUscite: ");
-		for (String direzione : this.direzioni)
+		for (String direzione : this.getDirezioni())
 			if (direzione!=null)
 				risultato.append(" " + direzione);
-		risultato.append("\nAttrezzi nella stanza: ");
-		for (Attrezzo attrezzo : this.attrezzi) {
+		risultato.append("\nAttrezzi nella stanza:");
+		for (Attrezzo attrezzo : this.attrezzi.values()) {
 			if(attrezzo!=null) {
 				risultato.append(attrezzo.toString()+" ");
 			}
@@ -145,8 +144,7 @@ public class Stanza {
 	 * @return true se l'attrezzo esiste nella stanza, false altrimenti.
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
-		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo, 0);
-		return attrezzi.contains(attrezzoCercato);
+		return attrezzi.containsKey(nomeAttrezzo);
 	}
 
 	/**
@@ -156,11 +154,7 @@ public class Stanza {
 	 * 		   null se l'attrezzo non e' presente.
 	 */
 	public Attrezzo getAttrezzo(String nomeAttrezzo) {
-		Attrezzo attrezzoCercato = new Attrezzo(nomeAttrezzo,0);
-		int indice = attrezzi.indexOf(attrezzoCercato);
-		if(indice!=-1)
-			return attrezzi.get(indice);
-		return null;
+		return this.attrezzi.get(nomeAttrezzo);
 	}
 
 	/**
@@ -169,14 +163,23 @@ public class Stanza {
 	 * @return true se l'attrezzo e' stato rimosso, false altrimenti
 	 */
 	public boolean removeAttrezzo(Attrezzo attrezzo) {
-		return attrezzi.remove(attrezzo);
+		return attrezzi.remove(attrezzo.getNome(),attrezzo);
 	}
 
 
-	public String[] getDirezioni() {
-		String[] direzioni = new String[this.stanzeAdiacenti.size()];
-		this.stanzeAdiacenti.toArray(direzioni);
-		return direzioni;
+	public List<String> getDirezioni() {	
+		return new LinkedList<String>(this.mappaAdiacenti.keySet());
 	}
-
+	
+	@Override
+	
+	public boolean equals(Object o) {
+		Stanza that = (Stanza)o;
+		return this.getNome().equals(that.getNome());//&&this.mappaAdiacenti.equals(that.getMapStanzeAdiacenti())&&this.getAttrezzi().equals(that.getAttrezzi());
+	}
+	@Override
+	public int hashCode() {
+		return this.getNome().hashCode();
+	}
+	
 }
