@@ -18,7 +18,7 @@ public class StanzaMagica extends Stanza{
 	@Override
 	public boolean addAttrezzo(Attrezzo attrezzo){
 		contatoreAttrezziPosati++;
-		if(contatoreAttrezziPosati>=sogliaMagica) {
+		if(contatoreAttrezziPosati>sogliaMagica) {
 			attrezzo = modificaAttrezzo(attrezzo);
 		}		
 		return super.addAttrezzo(attrezzo);
@@ -27,5 +27,8 @@ public class StanzaMagica extends Stanza{
 		StringBuilder nomeCapovolto = new StringBuilder(attrezzo.getNome()).reverse();
 		Attrezzo ozzertta = new Attrezzo(nomeCapovolto.toString(), attrezzo.getPeso()*2);
 		return ozzertta;
+	}
+	public boolean isMagica() {
+		return true;
 	}
 }

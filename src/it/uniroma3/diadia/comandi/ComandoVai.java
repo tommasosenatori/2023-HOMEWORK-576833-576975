@@ -21,7 +21,7 @@ public class ComandoVai implements Comando {
 		if (prossimaStanza == null)
 		
 			partita.getConsole().mostraMessaggio("Direzione inesistente");
-		else {
+		else if(prossimaStanza!=partita.getStanzaCorrente()){
 			partita.setStanzaCorrente(prossimaStanza);
 			int cfu = partita.getGiocatore().getCfu();
 			partita.getGiocatore().setCfu(--cfu);

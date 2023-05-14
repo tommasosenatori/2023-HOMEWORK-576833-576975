@@ -101,7 +101,7 @@ class StanzaTest {
 	}
 	@Test
 	void testGetAttrezzoStanzaTuttiAttrezziEAttrezzoPresente() {
-		assertEquals(stanzaTuttiAttrezzi.getAttrezzi().get(1),stanzaTuttiAttrezzi.getAttrezzo("Attrezzo 1"));
+		assertEquals(new Attrezzo("Attrezzo 1",1),stanzaTuttiAttrezzi.getAttrezzo("Attrezzo 1"));
 	}
 	//Test RemoveAttrezzo
 	@Test
@@ -114,15 +114,15 @@ class StanzaTest {
 	}
 	@Test
 	void testRemoveAttrezzoStanzaTuttiAttrezziPrimoAttrezzo() {
-		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 0", 1)));
+		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 0", 0)));
 	}
 	@Test
 	void testRemoveAttrezzoStanzaTuttiAttrezziUltimoAttrezzo() {
-		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 9", 1)));
+		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 9", 9)));
 	}
 	@Test
 	void testRemoveAttrezzoStanzaTuttiAttrezziAttrezzoInMezzo() {
-		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 4", 1)));
+		assertTrue(stanzaTuttiAttrezzi.removeAttrezzo(new Attrezzo ("Attrezzo 4", 4)));
 	}
 	
 }
