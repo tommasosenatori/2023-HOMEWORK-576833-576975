@@ -5,52 +5,105 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
+import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+
 
 class ComandoVaiTest {
-	private Stanza monolocale;
-	private Stanza stanzaBilocale1;
-	private Stanza stanzaBilocale2;
-	
-	private Partita partitaTest;
-	
+	private Labirinto monolocale;
+	private Labirinto bilocale;
+	private Labirinto trilocale;
+
+
 	private Comando vaiNord;
 	private Comando vaiSud;
+	
+	private IO console;
+	
 	@BeforeEach
 	void setUp(){
-		IOConsole console = new IOConsole();
-		partitaTest = new Partita(console);
+
+		console = new IOSimulator();
+	
 		vaiNord = new ComandoVai();
 		vaiNord.setParametro("Nord");
 		vaiSud = new ComandoVai();
 		vaiSud.setParametro("Sud");
-		monolocale = new Stanza("Stanza Monolocale");
-		stanzaBilocale1 = new Stanza("Stanza Bilocale 1");
-		stanzaBilocale2 = new Stanza("Stanza Bilocale 2");
-		stanzaBilocale1.impostaStanzaAdiacente("Nord", stanzaBilocale2);
-		stanzaBilocale2.impostaStanzaAdiacente("Sud", stanzaBilocale1);
+		monolocale = new LabirintoBuilder()
+				.addStanzaIniziale("Monolocale")
+				.addStanzaVincente("Monolocale")
+				.getLabirinto();
+		bilocale = new LabirintoBuilder()
+				.addStanzaIniziale("Stanza Bilocale 1")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.addAdiacenza("Stanza Bilocale 1", "Stanza Bilocale 2", "Nord")
+				.addAdiacenza("Stanza Bilocale 2", "Stanza Bilocale 1", "Sud")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.getLabirinto();
+		trilocale = new LabirintoBuilder()
+				.addStanzaIniziale("Ingresso")
+				.addStanza("Corridoio")
+				.addStanzaVincente("Uscita")
+				.addAdiacenza("Ingresso", "Corridoio", "sud")
+				.addAdiacenza("Corridoio","Ingresso","nord")
+				.addAdiacenza("Corridoio", "Uscita", "sud").
+				getLabirinto();
 
 	}
 
 	@Test
 	void testEseguiEStanzaSenzaUscite() {
-		partitaTest.setStanzaCorrente(monolocale);
+		Partita partitaTest = new Partita(monolocale, console);
 		vaiNord.esegui(partitaTest);
-		assertEquals(monolocale, partitaTest.getStanzaCorrente());
+		assertEquals(monolocale.getIngresso(), partitaTest.getStanzaCorrente());
 	}
 	@Test
 	void testEseguiEDirezioneEsistente() {
-		partitaTest.setStanzaCorrente(stanzaBilocale1);
+		Partita partitaTest = new Partita(bilocale, console);
 		vaiNord.esegui(partitaTest);
-		assertEquals(stanzaBilocale2, partitaTest.getStanzaCorrente());
+		assertEquals(bilocale.getUscita(), partitaTest.getStanzaCorrente());
 	}
 	@Test
 	void testEseguiEDirezioneInesistente() {
-		partitaTest.setStanzaCorrente(stanzaBilocale1);
+		Partita partitaTest = new Partita(bilocale, console);
 		vaiSud.esegui(partitaTest);
-		assertEquals(stanzaBilocale1, partitaTest.getStanzaCorrente());
+		assertEquals(bilocale.getIngresso(), partitaTest.getStanzaCorrente());
+	}
+
+	@Test
+	void testEseguiEDirezioneBloccata() {
+		bilocale = new LabirintoBuilder()
+				.addStanzaBloccata("Stanza Bilocale 1", "Nord", "Chiave")
+				.addStanzaIniziale("Stanza Bilocale 1")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.addAdiacenza("Stanza Bilocale 1", "Stanza Bilocale 2", "Nord")
+				.addAdiacenza("Stanza Bilocale 2", "Stanza Bilocale 1", "Sud")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.getLabirinto();
+		Partita partitaTest = new Partita(bilocale, console);
+		vaiNord.esegui(partitaTest);
+		assertEquals(bilocale.getIngresso(), partitaTest.getStanzaCorrente());
+		assertEquals(20, partitaTest.getGiocatore().getCfu());
+	}
+	@Test
+	void testEseguiEDirezioneSbloccata() {
+		bilocale = new LabirintoBuilder()
+				.addStanzaBloccata("Stanza Bilocale 1", "Nord", "Chiave")
+				.addAttrezzo("Chiave", 1)
+				.addStanzaIniziale("Stanza Bilocale 1")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.addAdiacenza("Stanza Bilocale 1", "Stanza Bilocale 2", "Nord")
+				.addAdiacenza("Stanza Bilocale 2", "Stanza Bilocale 1", "Sud")
+				.addStanzaVincente("Stanza Bilocale 2")
+				.getLabirinto();
+		Partita partitaTest = new Partita(bilocale, console);
+		vaiNord.esegui(partitaTest);
+		assertEquals(bilocale.getUscita(), partitaTest.getStanzaCorrente());
+		assertEquals(19, partitaTest.getGiocatore().getCfu());
 	}
 
 
