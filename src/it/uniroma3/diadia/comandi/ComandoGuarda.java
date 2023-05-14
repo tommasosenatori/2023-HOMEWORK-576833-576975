@@ -8,9 +8,10 @@ public class ComandoGuarda implements Comando {
 	 */
 	@Override
 	public void esegui(Partita partita) {
-		partita.getConsole().mostraMessaggio("Cfu: "+partita.getGiocatore().getCfu());
-		partita.getConsole().mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
-		partita.getConsole().mostraMessaggio(partita.getGiocatore().getBorsa().toString());
+		StringBuilder descrizione = new StringBuilder("Cfu: "+partita.getGiocatore().getCfu());
+		descrizione.append("\n"+partita.getStanzaCorrente().getDescrizione());
+		descrizione.append("\n"+partita.getGiocatore().getBorsa().toString());
+		partita.getConsole().mostraMessaggio(descrizione.toString());
 	}
 
 	@Override

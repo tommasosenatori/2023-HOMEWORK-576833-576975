@@ -47,7 +47,7 @@ public class Borsa {
 		if (this.getPeso() + attrezzo.getPeso() > this.getPesoMax())
 			return false;
 		this.attrezzi.put(attrezzo.getNome(),attrezzo);
-		this.numeroAttrezzi++;
+		this.numeroAttrezzi = this.attrezzi.size();
 		return true;
 	}
 	public int getPesoMax() {
@@ -83,7 +83,7 @@ public class Borsa {
 	 * @return true se l'attrezzo esiste nella stanza, false altrimenti.
 	 */
 	public boolean hasAttrezzo(String nomeAttrezzo) {
-		return this.getAttrezzo(nomeAttrezzo)!=null;
+		return this.attrezzi.containsKey(nomeAttrezzo);
 	}
 	/**
 	 * Rimuove un attrezzo dalla borsa(ricerca in base al nome)
@@ -136,8 +136,8 @@ public class Borsa {
 		StringBuilder s = new StringBuilder();
 		if (!this.isEmpty()) {
 			s.append("Contenuto borsa ("+this.getPeso()+"kg/"+this.getPesoMax()+"kg): ");
-			for (int i= 0; i<this.attrezzi.size(); i++)
-				s.append(attrezzi.get(i).toString()+" ");
+			for (String k : this.attrezzi.keySet())
+				s.append(attrezzi.get(k).toString()+" ");
 		}
 		else
 			s.append("Borsa vuota");

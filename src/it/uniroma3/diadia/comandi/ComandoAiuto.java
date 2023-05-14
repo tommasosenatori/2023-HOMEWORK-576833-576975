@@ -9,8 +9,11 @@ public class ComandoAiuto implements Comando {
 	 */
 	@Override
 	public void esegui(Partita partita) {
+		StringBuilder listaComandi = new StringBuilder();
 		for(int i=0; i< elencoComandi.length; i++) 
-			partita.getConsole().mostraMessaggio(elencoComandi[i]+" ");
+			listaComandi.append(elencoComandi[i]+" ");
+		partita.getConsole().mostraMessaggio(listaComandi.toString());
+			
 	}
 
 	@Override

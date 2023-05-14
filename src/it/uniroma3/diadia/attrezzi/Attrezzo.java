@@ -52,6 +52,7 @@ public class Attrezzo {
 	}
 	@Override
 	public boolean equals(Object obj) {
+		if(obj == null) return false;
 		Attrezzo that = (Attrezzo)obj;
 		return this.getNome().equals(that.getNome())&&this.getPeso()==that.getPeso();
 	}

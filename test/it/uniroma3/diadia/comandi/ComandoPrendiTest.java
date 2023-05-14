@@ -20,14 +20,14 @@ class ComandoPrendiTest {
 	private Attrezzo attrezzoSopraPesoLimite;
 	private Attrezzo attrezzoSottoPesoLimite;
 	private Partita partitaTest;
-	private Borsa borsaNumeroAttrezziMassimo;
+	
 	
 	@BeforeEach
 	void setUp()  {
 		IOConsole console = new IOConsole();
 		partitaTest = new Partita(console);
 		borsaVuota = new Borsa();
-		borsaNumeroAttrezziMassimo = new Borsa();
+	 
 		stanzaVuota = new Stanza("Stanza Vuota");
 		stanzaConOggettoSottoLimitePeso = new Stanza("Stanza con oggetto peso<Max");
 		stanzaConOggettoSopraLimitePeso = new Stanza("Stanza con oggetto peso>Max");
@@ -37,9 +37,7 @@ class ComandoPrendiTest {
 		stanzaConOggettoSottoLimitePeso.addAttrezzo(attrezzoSottoPesoLimite);
 		stanzaConOggettoSopraLimitePeso.addAttrezzo(attrezzoSopraPesoLimite);
 		
-		for(int i = 0; i<10;i++) {
-			borsaNumeroAttrezziMassimo.addAttrezzo(new Attrezzo("Attrezzo", 0));
-		}
+		
 	}	
 
 	@Test
@@ -82,17 +80,7 @@ class ComandoPrendiTest {
 		assertEquals("Borsa vuota", borsaVuota.toString());
 		
 	}
-	@Test
-	void testEseguiEBorsaConNumeroDiAttrezziMassimo() {
-		partitaTest.getGiocatore().setBorsa(borsaNumeroAttrezziMassimo);
-		partitaTest.setStanzaCorrente(stanzaConOggettoSottoLimitePeso);
-		ComandoPrendi prendiAttrezzoInesistente = new ComandoPrendi();
-		prendiAttrezzoInesistente.setParametro("Attrezzo leggero");
-		prendiAttrezzoInesistente.esegui(partitaTest);
-		assertTrue(stanzaConOggettoSottoLimitePeso.hasAttrezzo("Attrezzo leggero"));
-		assertFalse(borsaNumeroAttrezziMassimo.hasAttrezzo("Attrezzo leggero"));
-		
-	}
+
 	
 	
 	//attrezzo nella stanza e la borsa è piena

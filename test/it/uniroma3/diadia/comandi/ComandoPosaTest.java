@@ -31,7 +31,7 @@ class ComandoPosaTest {
 		stanzaPiena = new Stanza("Stanza Piena");
 		
 		for(int i = 0; i<10;i++) {
-			stanzaPiena.addAttrezzo(new Attrezzo("Attrezzo Piena", 0));
+			stanzaPiena.addAttrezzo(new Attrezzo("Attrezzo Piena"+i, 0));
 		}
 	}
 
