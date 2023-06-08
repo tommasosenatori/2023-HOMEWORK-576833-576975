@@ -13,7 +13,7 @@ class PartitaTest {
 
 	@BeforeEach
 	public void setUp() {
-		IOConsole console = new IOConsole();
+		IO console = new IOSimulator();
 		partitaNuova = new Partita(console);
 		partita0CFU = new Partita(console);
 		partitaVinta = new Partita(console);
