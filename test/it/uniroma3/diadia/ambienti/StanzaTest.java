@@ -44,7 +44,7 @@ class StanzaTest {
 	}
 	@Test
 	void testImpostaStanzaAdiacenteStanzaTutteDirezioniNuovaDirezione() {
-		Stanza nuovaStanzaAdd = new Stanza("NuovuovaStanzaAdd = no");
+		Stanza nuovaStanzaAdd = new Stanza("NuovaStanzaAdd = no");
 		stanzaTutteDirezioni.impostaStanzaAdiacente("nord ovest",nuovaStanzaAdd);
 		assertNull(stanzaTutteDirezioni.getStanzaAdiacente("nord ovest"));
 	}

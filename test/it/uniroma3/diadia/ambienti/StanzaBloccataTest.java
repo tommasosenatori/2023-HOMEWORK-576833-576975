@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+import it.uniroma3.diadia.Direzioni;
 import it.uniroma3.diadia.attrezzi.*;
 
 
@@ -21,23 +21,23 @@ class StanzaBloccataTest {
 	;
 		chiave = new Attrezzo("chiave",1);
 		stanzaNormaleDirezioneSbloccata= new Stanza("Stanza est");
-		stanzaBloccata = new StanzaBloccata("Stanza Bloccata", "nord", "chiave");
+		stanzaBloccata = new StanzaBloccata("Stanza Bloccata", Direzioni.NORD, "chiave");
 		stanzaNormale = new Stanza("Stanza Normale");
-		stanzaBloccata.impostaStanzaAdiacente("nord",stanzaNormale);
-		stanzaBloccata.impostaStanzaAdiacente("est", stanzaNormaleDirezioneSbloccata);
-		stanzaNormale.impostaStanzaAdiacente("sud",stanzaBloccata);
+		stanzaBloccata.impostaStanzaAdiacente(Direzioni.NORD,stanzaNormale);
+		stanzaBloccata.impostaStanzaAdiacente(Direzioni.EST, stanzaNormaleDirezioneSbloccata);
+		stanzaNormale.impostaStanzaAdiacente(Direzioni.SUD,stanzaBloccata);
 		
 	}
 
 	@Test
 	void testVaiInStanzaBloccataEChiaveNonPresente() {
-		assertEquals(stanzaBloccata, stanzaBloccata.getStanzaAdiacente("nord"));
+		assertEquals(stanzaBloccata, stanzaBloccata.getStanzaAdiacente("NORD"));
 		
 	}
 	@Test
 	void testVaiInStanzaBloccataEChiavePresente() {
 		stanzaBloccata.addAttrezzo(chiave);
-		assertEquals(stanzaNormale, stanzaBloccata.getStanzaAdiacente("nord"));
+		assertEquals(stanzaNormale, stanzaBloccata.getStanzaAdiacente("NORD"));
 	}
 	@Test
 	void testVaiInStanzaNonBloccataEChiaveNonPresente() {
