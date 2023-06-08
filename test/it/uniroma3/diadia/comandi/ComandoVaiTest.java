@@ -1,22 +1,21 @@
 package it.uniroma3.diadia.comandi;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.IO;
-import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.IOSimulator;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 
 class ComandoVaiTest {
 	private Labirinto monolocale;
+
 	private Labirinto bilocale;
-	private Labirinto trilocale;
+	
 
 
 	private Comando vaiNord;
@@ -33,25 +32,18 @@ class ComandoVaiTest {
 		vaiNord.setParametro("Nord");
 		vaiSud = new ComandoVai();
 		vaiSud.setParametro("Sud");
-		monolocale = new LabirintoBuilder()
+		monolocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Monolocale")
 				.addStanzaVincente("Monolocale")
 				.getLabirinto();
-		bilocale = new LabirintoBuilder()
+		bilocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Stanza Bilocale 1")
 				.addStanzaVincente("Stanza Bilocale 2")
 				.addAdiacenza("Stanza Bilocale 1", "Stanza Bilocale 2", "Nord")
 				.addAdiacenza("Stanza Bilocale 2", "Stanza Bilocale 1", "Sud")
 				.addStanzaVincente("Stanza Bilocale 2")
 				.getLabirinto();
-		trilocale = new LabirintoBuilder()
-				.addStanzaIniziale("Ingresso")
-				.addStanza("Corridoio")
-				.addStanzaVincente("Uscita")
-				.addAdiacenza("Ingresso", "Corridoio", "sud")
-				.addAdiacenza("Corridoio","Ingresso","nord")
-				.addAdiacenza("Corridoio", "Uscita", "sud").
-				getLabirinto();
+		
 
 	}
 
@@ -76,7 +68,7 @@ class ComandoVaiTest {
 
 	@Test
 	void testEseguiEDirezioneBloccata() {
-		bilocale = new LabirintoBuilder()
+		bilocale = Labirinto.newBuilder()
 				.addStanzaBloccata("Stanza Bilocale 1", "Nord", "Chiave")
 				.addStanzaIniziale("Stanza Bilocale 1")
 				.addStanzaVincente("Stanza Bilocale 2")
@@ -91,7 +83,7 @@ class ComandoVaiTest {
 	}
 	@Test
 	void testEseguiEDirezioneSbloccata() {
-		bilocale = new LabirintoBuilder()
+		bilocale = Labirinto.newBuilder()
 				.addStanzaBloccata("Stanza Bilocale 1", "Nord", "Chiave")
 				.addAttrezzo("Chiave", 1)
 				.addStanzaIniziale("Stanza Bilocale 1")
