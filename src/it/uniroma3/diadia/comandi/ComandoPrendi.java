@@ -3,7 +3,7 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-public class ComandoPrendi implements Comando {
+public class ComandoPrendi extends Comando {
 	private String nomeAttrezzo;
 	/**
 	 * Cerca di prendere un oggetto dalla stanza corrente e metterlo nella borsa.
