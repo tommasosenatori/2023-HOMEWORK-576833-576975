@@ -1,11 +1,14 @@
 package it.uniroma3.diadia;
 
 
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import it.uniroma3.diadia.ambienti.CaricatoreLabirinto;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.comandi.Comando;
+import it.uniroma3.diadia.comandi.FabbricaComandiRiflessiva;
 import it.uniroma3.diadia.comandi.FabbricaDiComandi;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
 
 /**
  * Classe principale di diadia, un semplice gioco di ruolo ambientato al dia.
@@ -58,7 +61,7 @@ public class DiaDia {
 	 */
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire;
-		FabbricaDiComandi factory = new FabbricaDiComandiFisarmonica();
+		FabbricaDiComandi factory = new FabbricaComandiRiflessiva();
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
 		if (this.partita.vinta())
@@ -75,13 +78,25 @@ public class DiaDia {
 	public static void main(String[] argc) {
 		/* N.B. unica istanza di IOConsole
 		di cui sia ammessa la creazione */
-		IO io = new IOConsole();
-		Labirinto labirinto = new LabirintoBuilder()
-				.addStanzaIniziale("LabCampusOne")
-				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("LabCampusOne","Biblioteca","ovest")
-				.getLabirinto();
-		DiaDia gioco = new DiaDia(labirinto, io);
-		gioco.gioca();
+		Labirinto lab  = new Labirinto();
+		try {
+			CaricatoreLabirinto labC = new CaricatoreLabirinto("resources/labirinto/Lab.txt");
+			lab = labC.carica();
+		} catch (FileNotFoundException e) {
+			
+			e.printStackTrace();
+		} catch (FormatoFileNonValidoException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Scritto male"+e.getMessage());
+		}
+		new CaricatoreCostanti().caricaCostanti();
+		try(Scanner scanner = new Scanner(System.in);){
+			IO io = new IOConsole(scanner);
+			DiaDia gioco = new DiaDia(lab, io);
+			gioco.gioca();
+		}
+
+		
+		
 	}
 }

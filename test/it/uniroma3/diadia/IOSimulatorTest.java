@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 class IOSimulatorTest {
 	// "Contenuto borsa(4kg/10kg): Osso (4kg) "
@@ -35,7 +34,7 @@ class IOSimulatorTest {
 
 	@Test
 	void testPartitaSempliceComandoFine() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addStanzaVincente("Uscita")
 				.addAdiacenza("Ingresso", "Uscita", "sud").getLabirinto();
@@ -49,7 +48,7 @@ class IOSimulatorTest {
 	
 	@Test
 	void testPartitaSempliceVinciVaiSud() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addStanzaVincente("Uscita")
 				.addAdiacenza("Ingresso", "Uscita", "sud").getLabirinto();
@@ -64,7 +63,7 @@ class IOSimulatorTest {
 	
 	@Test
 	void testPartitaSempliceGuarda() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addAttrezzo("Osso",4)
 				.addStanzaVincente("Uscita")
@@ -76,12 +75,12 @@ class IOSimulatorTest {
 		d.gioca();
 		Map<Integer, String> messaggi = simulatore.getMessaggiMostrati();
 		assertEquals(messaggi.get(0),MESSAGGIO_BENVENUTO);
-		assertEquals(messaggi.get(1),"Cfu: 20\n"+ "Ingresso\nUscite:  sud\nAttrezzi nella stanza:Osso (4kg) "+"\nBorsa vuota");
+		assertEquals(messaggi.get(1),"Cfu: 20\n"+ "Ingresso\nUscite:  SUD\nPersonaggi:\nAttrezzi nella stanza:Osso (4kg) "+"\nBorsa vuota");
 		assertEquals(messaggi.get(messaggi.size()-1),"Grazie di aver giocato!");
 	}
 	@Test
 	void testPartitaSempliceAiuto() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addStanzaVincente("Uscita")
 				.addAdiacenza("Ingresso", "Uscita", "sud").getLabirinto();
@@ -98,7 +97,7 @@ class IOSimulatorTest {
 	}
 	@Test
 	void testPartitaSempliceNonValido() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")		
 				.addStanzaVincente("Uscita")
 				.addAdiacenza("Ingresso", "Uscita", "sud").getLabirinto();
@@ -115,7 +114,7 @@ class IOSimulatorTest {
 	
 	@Test
 	void testPartitaSemplicePrendi() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addAttrezzo("Osso",4)
 				.addStanzaVincente("Uscita")
@@ -133,7 +132,7 @@ class IOSimulatorTest {
 	}
 	@Test
 	void testPartitaSemplicePrendiPosa() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addAttrezzo("Osso",4)
 				.addStanzaVincente("Uscita")
@@ -153,7 +152,7 @@ class IOSimulatorTest {
 	}
 	@Test
 	void testPartitaSempliceGuardaStanzaBuiaLanternaNonPresente() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaBuia("Ingresso", "Lanterna")
 				.addStanzaIniziale("Ingresso")
 				.addStanzaVincente("Uscita")
@@ -170,7 +169,7 @@ class IOSimulatorTest {
 	}
 	@Test
 	void testPartitaSempliceGuardaStanzaBuiaLanternaPresente() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaBuia("Ingresso", "Lanterna")
 				.addAttrezzo("Lanterna", 1)
 				.addStanzaIniziale("Ingresso")
@@ -183,13 +182,13 @@ class IOSimulatorTest {
 		d.gioca();
 		Map<Integer, String> messaggi = simulatore.getMessaggiMostrati();
 		assertEquals(messaggi.get(0),MESSAGGIO_BENVENUTO);
-		assertEquals(messaggi.get(1), "Cfu: 20\n"+ "Ingresso\nUscite:  sud\nAttrezzi nella stanza:Lanterna (1kg) "+"\nBorsa vuota");
+		assertEquals(messaggi.get(1), "Cfu: 20\n"+ "Ingresso\nUscite:  SUD\nPersonaggi:\nAttrezzi nella stanza:Lanterna (1kg) "+"\nBorsa vuota");
 		assertEquals(messaggi.get(messaggi.size()-1),"Grazie di aver giocato!");
 	}
 	
 	@Test
 	void testPartitaSempliceGuardaStanzaBloccata() {
-		Labirinto labSemplice = new LabirintoBuilder()
+		Labirinto labSemplice = Labirinto.newBuilder()
 				.addStanzaBloccata("Ingresso", "sud","Chiave")
 				.addStanzaIniziale("Ingresso")
 				.addStanzaVincente("Uscita")
@@ -201,13 +200,13 @@ class IOSimulatorTest {
 		d.gioca();
 		Map<Integer, String> messaggi = simulatore.getMessaggiMostrati();
 		assertEquals(messaggi.get(0),MESSAGGIO_BENVENUTO);
-		assertEquals(messaggi.get(1), "Cfu: 20\n"+ "Ingresso\nUscite:  sud\nAttrezzi nella stanza:"+"\nDirezione bloccata:sud. Necessario:Chiave\n"+"\nBorsa vuota");
+		assertEquals(messaggi.get(1), "Cfu: 20\n"+ "Ingresso\nUscite:  SUD\nPersonaggi:\nAttrezzi nella stanza:"+"\nDirezione bloccata:SUD. Necessario:Chiave\n"+"\nBorsa vuota");
 		assertEquals(messaggi.get(messaggi.size()-1),"Grazie di aver giocato!");
 	}
 	
 	@Test
 	void testPartitaTrilocaleEsaurimentoCfu() {
-		Labirinto labTrilocale = new LabirintoBuilder()
+		Labirinto labTrilocale = Labirinto.newBuilder()
 				.addStanzaIniziale("Ingresso")
 				.addStanza("Corridoio")
 				.addStanzaVincente("Uscita")
