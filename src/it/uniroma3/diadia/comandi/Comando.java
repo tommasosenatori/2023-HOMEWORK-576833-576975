@@ -2,17 +2,20 @@ package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.Partita;
 
-public interface Comando {
+public abstract class Comando {
 
 	/**
 	 * esecuzione del comando
 	 */
-	public void esegui(Partita partita);
+	public abstract void esegui(Partita partita);
 	/**
 	 * set parametro del comando
 	 */
-	public void setParametro(String parametro);
-	public String getParametro();
-	public String getNome();
-
+	public void setParametro(String parametro) {
+		
+	}
+	public String getParametro() {
+	 return null;	
+	}
+	public abstract String getNome();
 }
